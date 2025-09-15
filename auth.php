@@ -25,8 +25,8 @@ add_filter( 'application_password_is_api_request', 'application_password_extras'
 // really helpful for the application UI.
 function application_password_extra_capabilities() {
 	return [
-		'admin-ajax',
-		'post-previews'
+		'admin-ajax' => true,
+		'post-previews' => true,
 	];
 }
 
@@ -35,6 +35,18 @@ add_action( 'rest_api_init', function() {
 		'methods'  				=> WP_REST_Server::READABLE,
 		'callback' 				=> 'application_password_extra_capabilities',
 		'permission_callback' 	=> 'is_user_logged_in',
+	] );
+
+	register_rest_route( 'application-password-extras/v1', 'admin-ajax', [
+		'methods'  				=> WP_REST_Server::READABLE,
+		'callback' 				=> 'application_password_extra_capabilities',
+		'permission_callback' 	=> 'is_user_logged_in',
+	] );
+
+	register_rest_route( 'application-password-extras/v1', 'post-previews', [
+		'methods'  				=> WP_REST_Server::READABLE,
+		'callback' 				=> 'application_password_extra_capabilities',
+		'permission_callback' 	=> 'is_user_logged_in'
 	] );
 });
 
